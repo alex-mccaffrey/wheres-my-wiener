@@ -1,77 +1,29 @@
 import React, { useState, useEffect } from 'react';
 
 import config from '../config';
+import axios from 'axios';
 
 export default function LocateDog() {
   const [location, setLocation] = React.useState('');
   const [results, setResults] = React.useState({});
   let [responseData, setResponseData] = React.useState('');
 
-  //  useEffect(() => {
-  //    const url = config.API_URL;
-
-  //    const fetchData = async () => {
-  //      try {
-  //        const response = await fetch(url);
-  //        const json = await response.json();
-  //        console.log(json.slip.results);
-  //        setResults(json.slip.results);
-  //      } catch (error) {
-  //        console.log('error', error);
-  //      }
-  //    };
-
-  //    fetchData();
-  //  }, []);
+  const corsApiUrl = 'https://cors-anywhere.herokuapp.com/';
 
   const getResults = () => {
     console.log('getting results');
-    const token = 'bearer ' + config.API_KEY;
-    const url =
-      'https://api.yelp.com/v3/businesses/search?categories=hotdog&location=' +
-      location;
-    // fetch(`${config.API_URL}${location}`)
 
-    //   fetch(`${config.API_URL}${location}`, {
-    //     method: 'GET',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       Authorization: token,
-    //     },
-    //     body: JSON.stringify(),
-    //   }).then((dog) => {
-    //     console.log(dog);
-    //   });
+    const url = process.env.REACT_APP_API_URL;
     console.log(url);
-    fetch(`${url}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token,
-      },
-    }).then((res) =>
-      !res.ok ? res.json().then((e) => Promise.reject(e)) : res.json()
-    );
-  };
-  //.then(console.log(res));
-  // const fetchData = () => {
-  //   const token = 'bearer ' + config.API_KEY;
-  //   fetch(`${config.API_URL}${location}`, {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Access: 'application/json',
-  //       Authorization: token,
-  //     },
-  //     body: JSON.stringify(),
-  //   }).then((res) =>
-  //     !res.ok ? res.json().then((e) => Promise.reject(e)) : res.json()
-  //   );
-  // };
 
-  // React.useEffect(() => {
-  //   fetchData();
-  // }, [fetchData]);
+    axios({
+      method: 'get',
+      url: `${url}`,
+      Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.error(err));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
