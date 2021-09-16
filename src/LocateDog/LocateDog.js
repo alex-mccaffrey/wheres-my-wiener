@@ -18,6 +18,7 @@ export default function LocateDog() {
 
     axios({
       method: 'get',
+      'Access-Control-Allow-Origin': `${corsApiUrl}`,
       url: `${url}`,
       Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
     })
